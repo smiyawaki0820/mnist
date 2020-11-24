@@ -78,9 +78,9 @@ class ModelTrainer(object):
     self.optimizer = optim.SGD(self.net.parameters(), lr=0.001, momentum=0.9)  # optim.Adam(net.parameters())
 
   def download_data(self, dest='./data'):
-    assert not os.path.isdir(dest), '%s is Existed!' % dest
-    self.mnist_train = MyMNIST('./data', train=True,  download=True, transform=self.transform, limit_data=1000)
-    self.mnist_test  = MyMNIST('./data', train=False, download=True, transform=self.transform)
+    isDownload = False if os.path.isdir(dest) else True
+    self.mnist_train = MyMNIST('./data', train=True,  download=isDownload, transform=self.transform, limit_data=1000)
+    self.mnist_test  = MyMNIST('./data', train=False, download=isDownload, transform=self.transform)
 
   def train(self, args:argparse.Namespace, trainloader, testloader) -> List[dict]:
     results = []
