@@ -138,14 +138,14 @@ class ModelTrainer(object):
       outputs = self.net(inputs)
       _, pred_cls = torch.max(outputs, 1)
       if total_num == 0:
-         logger.info("True label:\n", labels)
-         logger.info("Prediction:\n", pred_cls)
+         logger.info(f"True label: {labels}")
+         logger.info(f"Prediction: {pred_cls}")
 
       correct_num += (pred_cls == labels).float().sum().item()
       total_num += bch
     
     acc = correct_num/float(total_num)
-    logger.info("Accuracy: "+"%.2f"%(acc))
+    logger.info("Accuracy: {:.2f}".format(acc))
     return acc
 
   @staticmethod
@@ -153,7 +153,7 @@ class ModelTrainer(object):
     pd.DataFrame(results)\
       .astype({'epoch':int, 'loss':float, 'acc':float})\
       .set_index('epoch')\
-      .to_csv(open(fo, 'w') if fo is not None else sys.stdout, index=True)
+      .to_csv(open(fo, 'w') if fo is not None else sys.stdout, index=True, sep='\t')
 
 def create_arg_parser():
   parser = argparse.ArgumentParser(description='')
